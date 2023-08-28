@@ -6,6 +6,6 @@ psycopg2==2.9.7
 python-decouple
 pipwin
 
-# drf-spectacular>=0.15,<0.16
+drf-spectacular>=0.15,<0.16
 # pillow>=8.2.0,<8.3.0
 # django-cors-headers

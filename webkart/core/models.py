@@ -21,7 +21,6 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password):
-        # map = {'number' : 123}
         user = self.create_user(email, password)
         user.is_staff = True
         user.is_superuser = True
@@ -32,7 +31,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    number = models.IntegerField(unique=True, blank=True, null=True)
+    number = models.CharField(max_length=15, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_seller = models.BooleanField(default=False)
