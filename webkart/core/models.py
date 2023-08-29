@@ -13,7 +13,7 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **other_fields):
         if not email:
-            raise(ValueError("Email not provided"))
+            raise (ValueError("Email not provided"))
         user = self.model(
             email=self.normalize_email(email),
             **other_fields
@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+
 class Product(models.Model):
     seller = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -51,7 +52,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.TextField()
     quantity = models.IntegerField()
-    discount = models.DecimalField(max_digits=5, decimal_places=2)
+    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     # image = models.ImageField()
     # category = models.ManyToManyField()
@@ -60,5 +61,16 @@ class Product(models.Model):
         return self.name
 
 
+class CartItem(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE
+    )
+    quantity = models.IntegerField(default=1)
 
-
+    def __str__(self):
+        return self.user.name + ' ' + self.product.name
