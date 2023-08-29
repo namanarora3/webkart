@@ -4,12 +4,7 @@ from core.models import Product
 
 from rest_framework import mixins, permissions, viewsets
 
-from rest_framework.permissions import BasePermission
-
-class IsSeller(BasePermission):
-
-    def has_permission(self, request, view):
-        return (request.user and request.user.is_seller)
+from core.permissions import IsSeller
 
 
 class PublicProductViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
