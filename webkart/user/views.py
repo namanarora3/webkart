@@ -1,17 +1,17 @@
 from django.shortcuts import render
 
-from .serializers import UserSerializer, AuthTokenSerializer, ManageUserSerializer
+from .serializers import UserSerializer, AuthTokenSerializer, ManageUserSerializer, AddressSerializer
 
-from rest_framework import generics, mixins, permissions
+from rest_framework import generics, mixins, permissions, viewsets
 from rest_framework.settings import api_settings
-
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
 from django.shortcuts import redirect
 
-from rest_framework.response import Response
-
-from rest_framework.authtoken.models import Token
+from core.permissions import IsSeller, IsBuyer
+from core.models import Address
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -49,6 +49,18 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+class ManageAddressViewSet(viewsets.ModelViewSet):
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated, IsBuyer]
+    queryset = Address.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
 
 
 

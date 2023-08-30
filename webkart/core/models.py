@@ -8,6 +8,12 @@ from django.contrib.auth.models import (
 
 from django.conf import settings
 
+ADDRESS_CHOICES = (
+    ('WORK', 'Work',),
+    ('HOME', 'Home',),
+    ('Other', 'Other',),
+)
+
 
 class UserManager(BaseUserManager):
 
@@ -74,3 +80,24 @@ class CartItem(models.Model):
 
     def __str__(self):
         return self.user.name + ' ' + self.product.name
+
+class Address(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=255)
+    line_1 = models.CharField(max_length=255)
+    line_2 = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    pincode = models.CharField(max_length=6)
+    type = models.CharField(
+        max_length=20,
+        choices=ADDRESS_CHOICES,
+        default='HOME'
+    )
+
+    def __str__(self):
+        return self.name
+    

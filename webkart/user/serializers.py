@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model, authenticate
 
 from django.contrib.auth import update_session_auth_hash
 
+from core.models import Address
+
 class ManageUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
@@ -67,3 +69,13 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = [
+            'id', 'name', 'line_1',
+            'line_2', 'city', 'state',
+            'pincode', 'type'
+        ]
+        read_only_fields = ['id']

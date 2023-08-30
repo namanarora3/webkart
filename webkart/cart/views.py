@@ -11,14 +11,14 @@ from rest_framework import status, permissions
 
 from core.models import CartItem, Product
 
-from core.permissions import IsSeller
+from core.permissions import IsSeller, IsBuyer
 
 from decimal import Decimal
 
 
 class UpdateCartItem(APIView):
     serializer_class = CartItemSerializer
-    permission_classes = [permissions.IsAuthenticated, ~IsSeller]
+    permission_classes = [permissions.IsAuthenticated, IsBuyer]
 
     def get(self, request):
         user = request.user
@@ -70,7 +70,7 @@ class UpdateCartItem(APIView):
 
 
 class CartTotalView(APIView):
-    permission_classes = [permissions.IsAuthenticated, ~IsSeller]
+    permission_classes = [permissions.IsAuthenticated, IsBuyer]
 
     def get(self, request):
         user = request.user
@@ -83,3 +83,5 @@ class CartTotalView(APIView):
                              'price'))*getattr(item, 'quantity')
             print(total)
         return Response({'total': total}, status.HTTP_200_OK)
+
+
