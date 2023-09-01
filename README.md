@@ -5,7 +5,7 @@ Go to the project directory
 
 We recommend you to use virtual environment
 
-  python -m venv venv
+    python -m venv venv
 Activate virtual environment
 
   For Windows PowerShell
@@ -16,13 +16,13 @@ Activate virtual environment
     source venv/bin/activate
 Install dependencies
 
-  pip install -r requirements.txt
+    pip install -r requirements.txt
 Create .env file in project's root directory(base directory), and add SECURITY_KEY, EMAIL_HOST_USER, and EMAIL_HOST_PASSWORD
 
 Run Migrations
 
- python manage.py makemigrations
- python manage.py migrate
+     python manage.py makemigrations
+     python manage.py migrate
 Start the server
 
-  python manage.py runserver
+      python manage.py runserver
